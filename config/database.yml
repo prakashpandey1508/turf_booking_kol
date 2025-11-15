@@ -9,12 +9,20 @@ default: &default
 development:
   <<: *default
   database: turf_booking
+  queue:
+    <<: *default
+    database: turf_booking  # same as main DB
 
 test:
   <<: *default
   database: turf_booking_test
+  queue:
+    <<: *default
+    database: turf_booking_test  # same as test DB
 
 production:
   <<: *default
   url: <%= ENV['DATABASE_URL'] %>
-
+  queue:
+    <<: *default
+    url: <%= ENV['DATABASE_URL'] %>
