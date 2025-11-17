@@ -12,4 +12,13 @@ Rails.application.routes.draw do
 
   # Defines the root path route ("/")
   # root "posts#index"
+  namespace :api do
+    resources :users, defaults: { format: :json } do
+      collection do
+        put 'sign_up', to: 'users#sign_up'
+        put 'sign_in', to: 'users#sign_in'
+      end
+    end
+
+  end
 end
