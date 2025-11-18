@@ -8,7 +8,32 @@ class Api::UsersController < Api::BaseController
     end
   end
 
+  def sign_in
+    user = User.find_by(email: params[:email])
+    return render json: { success: false, message: "User not found" }, status: :not_found unless user
+    user_password = params[:password]
+    return render_json_response(false, 'sign in failed') unless user.password == user_password
+
+    if user
+      data = { user: { id: user.id, email: user.email, name: user.name, role: user.role, token: create_jwt_token(user.id) } }
+      render_json_response(true, "Sign in successful", data: , status: :ok)
+    else
+      render_json_response(false, "Sign in failed", status: :unauthorized)
+    end
+  end
+
   def sign_up_params
     params.permit(:email, :password, :name, :role)
+  end
+
+  def create_jwt_token(user_id)
+    payload = { user_id: }
+    JsonWebToken.encode(payload)
+  end
+
+  def render_json_response(success, message, data: {}, status: :ok)
+    response = { success:, message: }
+    response[:data] = data unless data.empty?
+    render json: response, status: status
   end
 end
