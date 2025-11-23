@@ -7,7 +7,7 @@ class Api::TurfsController < Api::BaseController
   end
 
   def show
-    
+
   end
 
   def create
@@ -18,6 +18,7 @@ class Api::TurfsController < Api::BaseController
       render_json_response(false, "Turf creation failed", data: { errors: turf.errors.full_messages }, status: :unprocessable_entity)
     end
   end
+
 
   def update
     turf = Turf.find_by(id: params[:id])

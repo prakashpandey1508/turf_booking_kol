@@ -14,12 +14,12 @@ Rails.application.routes.draw do
   # root "posts#index"
   namespace :api do
     resources :turfs, except: [:new, :edit], defaults: { format: :json }
+    resources :bookings, except: [:new, :edit], defaults: { format: :json }
     resources :users, defaults: { format: :json } do
       collection do
         put 'sign_up', to: 'users#sign_up'
         put 'sign_in', to: 'users#sign_in'
       end
     end
-
   end
 end

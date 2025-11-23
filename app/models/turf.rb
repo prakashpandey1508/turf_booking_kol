@@ -1,5 +1,6 @@
 class Turf < ApplicationRecord
   belongs_to :user
+  has_many :bookings, dependent: :destroy
   validates :name, presence: true
   validates :pin_code, presence: true
   validates :address, presence: true
