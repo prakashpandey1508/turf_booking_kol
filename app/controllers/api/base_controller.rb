@@ -1,7 +1,6 @@
 class Api::BaseController < ApplicationController
   protect_from_forgery with: :null_session  # Disable CSRF for API
   def validate_authentication_token
-    debugger
     token = request.headers['Authorization']&.split(' ')&.last
     unless token
       render json: { success: false, message: 'Missing authentication token' }, status: :unauthorized
