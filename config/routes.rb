@@ -20,6 +20,7 @@ Rails.application.routes.draw do
         put 'sign_up', to: 'users#sign_up'
         put 'sign_in', to: 'users#sign_in'
       end
+      put 'update_profile', to: 'users#update_profile'
     end
   end
 end
