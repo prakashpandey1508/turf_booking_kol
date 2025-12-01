@@ -21,6 +21,7 @@ Rails.application.routes.draw do
         put 'sign_in', to: 'users#sign_in'
       end
       put 'update_profile', to: 'users#update_profile'
+      get 'profile', to: 'users#user_profile'
     end
   end
 end
