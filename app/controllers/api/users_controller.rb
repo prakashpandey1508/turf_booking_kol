@@ -1,7 +1,7 @@
 class Api::UsersController < Api::BaseController
   include UsersConcern
   before_action :validate_sign_up_params, only: [:sign_up]
-  before_action :validate_authentication_token, only: [:update_profile]
+  before_action :validate_authentication_token, only: [:update_profile, :user_profile]
 
   def sign_up
     user = User.new(sign_up_params)
@@ -30,7 +30,9 @@ class Api::UsersController < Api::BaseController
     user_bio = params[:bio]
     preferred_sports = params[:preferred_sports] || []
     username = params[:username]
-    existing_user_with_username = User.find_by(username: username) if
+    user_name = params[:name]
+    email = params[:email]
+    existing_user_with_username = User.find_by(username: username) if username.present?
     if existing_user_with_username.present? && existing_user_with_username.id != @user.id
       return render json: { success: false, message: "Username already taken" }, status: :conflict
     end
@@ -42,6 +44,10 @@ class Api::UsersController < Api::BaseController
     else
       render json: { success: false, message: "Failed to update profile", errors: @user.errors.full_messages }, status: :unprocessable_entity
     end
+  end
+
+  def user_profile
+    render json: { success: true, message: "User profile fetched successfully", data: { id: @user.id, email: @user.email, name: @user.name, role: @user.role, phone_number: @user.phone_number, bio: @user.bio, preferred_sports: @user.preferred_sports, username: @user.username } }, status: :ok
   end
 
   def sign_up_params
