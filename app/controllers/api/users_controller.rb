@@ -30,7 +30,7 @@ class Api::UsersController < Api::BaseController
     user_bio = params[:bio]
     preferred_sports = params[:preferred_sports] || []
     username = params[:username]
-    user_name = params[:name]
+    name = params[:name]
     email = params[:email]
     existing_user_with_username = User.find_by(username: username) if username.present?
     if existing_user_with_username.present? && existing_user_with_username.id != @user.id
@@ -39,6 +39,8 @@ class Api::UsersController < Api::BaseController
     @user.bio = user_bio
     @user.preferred_sports = preferred_sports
     @user.username = username
+    @user.name = name if name.present?
+    @user.email = email if email.present?
     if @user.save
       render json: { success: true, message: "Profile updated successfully", data: { id: @user.id, email: @user.email, name: @user.name, role: @user.role, phone_number: @user.phone_number, bio: @user.bio, preferred_sports: @user.preferred_sports, username: @user.username } }, status: :ok
     else
