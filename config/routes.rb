@@ -17,8 +17,10 @@ Rails.application.routes.draw do
     resources :bookings, except: [:new, :edit], defaults: { format: :json }
     resources :users, defaults: { format: :json } do
       collection do
-        put 'sign_up', to: 'users#sign_up'
-        put 'sign_in', to: 'users#sign_in'
+        post 'sign_up', to: 'users#sign_up'
+        post 'sign_in', to: 'users#sign_in'
+        post 'send_otp', to: 'users#send_otp'
+        post 'verify_otp', to: 'users#verify_otp'
       end
       put 'update_profile', to: 'users#update_profile'
       get 'profile', to: 'users#user_profile'
