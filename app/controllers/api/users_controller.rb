@@ -100,7 +100,8 @@ class Api::UsersController < Api::BaseController
     response = TwoFactorOtpServices::VerifyOtp.new(phone_number, otp).call
     parse_response = JSON.parse(response.body)
     if parse_response["Status"] == "Success"
-      render json: { success: true, message: "OTP verified successfully", token: create_jwt_token(user.id) }, status: :ok
+      data = { user: { id: user.id, email: user.email, name: user.name, role: user.role, token: create_jwt_token(user.id), phone_number: user.phone_number } }
+      render json: { success: true, message: "OTP verified successfully", data: data }, status: :ok
     else
       render json: { success: false, message: "Invalid OTP" }, status: :unprocessable_entity
     end
