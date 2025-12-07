@@ -92,7 +92,8 @@ class Api::UsersController < Api::BaseController
     if ['919509697424', '917079783893'].include?(phone_number)
       priya_dev_otp = '412878'
       if otp == priya_dev_otp
-        return render json: { success: true, message: "OTP verified successfully", token: create_jwt_token(user.id) }, status: :ok
+        data = { user: { id: user.id, email: user.email, name: user.name, role: user.role, token: create_jwt_token(user.id), phone_number: user.phone_number } }
+        return render json: { success: true, message: "OTP verified successfully", data: data = { user: { id: user.id, email: user.email, name: user.name, role: user.role, token: create_jwt_token(user.id), phone_number: user.phone_number } } }, status: :ok
       else
         return render json: { success: false, message: "Invalid OTP" }, status: :unprocessable_entity
       end
